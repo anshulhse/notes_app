@@ -34,69 +34,127 @@ class _RegisterViewState extends State<RegisterView> {
       appBar: AppBar(
         title: const Text("Register view"),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _email,
-            enableSuggestions: false,
-            autocorrect: false,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Enter ur mail',
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 250, 10, 0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _email,
+              enableSuggestions: false,
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(21),
+                  // ignore: prefer_const_constructors
+                  borderSide: BorderSide(
+                    color: Colors.deepOrange,
+                    width: 2,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(21),
+                  // ignore: prefer_const_constructors
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                ),
+                prefixIcon: const Icon(
+                  Icons.email,
+                  color: Colors.black,
+                ),
+                hintText: 'Enter your email id',
+              ),
             ),
-          ),
-          TextField(
-            controller: _password,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(
-              hintText: 'Enter ur pass',
+            Container(
+              height: 11,
             ),
-          ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
-                await AuthService.firebase().createUser(
-                  email: email,
-                  password: password,
-                );
-                AuthService.firebase().sendEmailVerification();
-                Navigator.of(context).pushNamed(verifyEmailRoute);
-              } on WeakPasswordAuthException {
-                await showErrorDialog(
-                  context,
-                  'weak pass',
-                );
-              } on EmailAlreadyInUseAuthException {
-                await showErrorDialog(
-                  context,
-                  'email-already-in-use',
-                );
-              } on InvalidEmailAuthException {
-                await showErrorDialog(
-                  context,
-                  'invalid-email',
-                );
-              } on GenericAuthException {
-                await showErrorDialog(
-                  context,
-                  'failed to register',
-                );
-              }
-            },
-            child: const Text('Register'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(loginRoute, (route) => false);
-            },
-            child: const Text("already register? login here"),
-          )
-        ],
+            TextField(
+              controller: _password,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(21),
+                  // ignore: prefer_const_constructors
+                  borderSide: BorderSide(
+                    color: Colors.deepOrange,
+                    width: 2,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(21),
+                  // ignore: prefer_const_constructors
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 2,
+                  ),
+                ),
+                prefixIcon: const Icon(
+                  Icons.remove_red_eye,
+                  color: Colors.black,
+                ),
+                hintText: 'Enter your password',
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
+                try {
+                  await AuthService.firebase().createUser(
+                    email: email,
+                    password: password,
+                  );
+                  AuthService.firebase().sendEmailVerification();
+                  Navigator.of(context).pushNamed(verifyEmailRoute);
+                } on WeakPasswordAuthException {
+                  await showErrorDialog(
+                    context,
+                    'weak pass',
+                  );
+                } on EmailAlreadyInUseAuthException {
+                  await showErrorDialog(
+                    context,
+                    'email-already-in-use',
+                  );
+                } on InvalidEmailAuthException {
+                  await showErrorDialog(
+                    context,
+                    'invalid-email',
+                  );
+                } on GenericAuthException {
+                  await showErrorDialog(
+                    context,
+                    'failed to register',
+                  );
+                }
+              },
+              child: const Text(
+                'Register',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+              },
+              child: const Text(
+                "already register? login here",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
