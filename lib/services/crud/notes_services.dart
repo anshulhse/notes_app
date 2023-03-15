@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart'
@@ -24,15 +26,15 @@ class NotesService {
 
   late final StreamController<List<DatabaseNote>> _notesStreamController;
 
-  Stream<List<DatabaseNote>> get allNotes =>
-      _notesStreamController.stream.filter((note) {
-        final currentUser = _user;
-        if (currentUser != null) {
-          return note.user_id == currentUser.id;
-        } else {
-          throw UserAlreadyExists();
-        }
-      });
+  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
+  // .filter((note) {
+  //   final currentUser = _user;
+  //   if (currentUser != null) {
+  //     return note.user_id == currentUser.id;
+  //   } else {
+  //     throw UserAlreadyExists();
+  //   }
+  // });
 
   Future<DatabaseUser> getOrCreateuser({
     required String email,
