@@ -7,7 +7,8 @@ import 'cloud_storage_exceptions.dart';
 class FirebaseCloudStorage {
   final notes = FirebaseFirestore.instance.collection('notes');
 
-  Future<void> deleteNote({required String documnetId}) async {
+  Future<void> deleteNote(
+      {required String documnetId, required String documentId}) async {
     try {
       await notes.doc(documnetId).delete();
     } catch (e) {
@@ -49,7 +50,7 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<CloudNote> CreateNewNote({required String ownerUserid}) async {
+  Future<CloudNote> createNewNote({required String ownerUserid}) async {
     final document = await notes.add({
       ownerUserIdFieldName: ownerUserid,
       textFieldName: '',
@@ -66,4 +67,6 @@ class FirebaseCloudStorage {
       FirebaseCloudStorage._sharedInstance();
   FirebaseCloudStorage._sharedInstance();
   factory FirebaseCloudStorage() => _shared;
+
+  createNote({required String ownerUserId}) {}
 }
