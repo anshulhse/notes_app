@@ -138,6 +138,20 @@ class _LoginViewState extends State<LoginView> {
                 ElevatedButton(
                   onPressed: () {
                     context.read<AuthBloc>().add(
+                          const AuthEventForgotPassword(email: ''),
+                        );
+                  },
+                  child: const Text(
+                    "forget password ?",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
                           const AuthEventShouldRegister(),
                         );
                   },
