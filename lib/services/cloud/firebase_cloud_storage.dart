@@ -50,7 +50,8 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<CloudNote> createNewNote({required String ownerUserid}) async {
+  Future<CloudNote> createNewNote(
+      {required String ownerUserid, required String ownerUserId}) async {
     final document = await notes.add({
       ownerUserIdFieldName: ownerUserid,
       textFieldName: '',
@@ -67,6 +68,4 @@ class FirebaseCloudStorage {
       FirebaseCloudStorage._sharedInstance();
   FirebaseCloudStorage._sharedInstance();
   factory FirebaseCloudStorage() => _shared;
-
-  createNote({required String ownerUserId}) {}
 }

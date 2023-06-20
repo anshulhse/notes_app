@@ -59,7 +59,8 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     final currentUser = AuthService.firebase().currentUser!;
     final userId = currentUser.id;
 
-    final newNote = await _notesService.createNote(ownerUserId: userId);
+    final newNote = await _notesService.createNewNote(
+        ownerUserId: userId, ownerUserid: userId);
     _note = newNote;
     return newNote;
   }
@@ -67,7 +68,10 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   void _deleteNoteIfTextIsEmpty() {
     final note = _note;
     if (_textController.text.isEmpty && note != null) {
-      _notesService.deleteNote(documentId: note.documentId, documnetId: '');
+      _notesService.deleteNote(
+        documentId: note.documentId,
+        documnetId: note.documentId,
+      );
     }
   }
 
