@@ -5,6 +5,7 @@ import 'package:notes_app/services/auth/auth_exceptions.dart';
 
 import '../services/auth/bloc/auth_bloc.dart';
 import '../services/auth/bloc/auth_event.dart';
+import '../services/auth/bloc/auth_state.dart';
 import '../utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -103,39 +104,36 @@ class _LoginViewState extends State<LoginView> {
                   hintText: 'Enter your password',
                 ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  final email = _email.text;
-                  final password = _password.text;
-                  try {
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) async {
+                  if (state is AuthStateLoggedOut) {
+                    if (state.exception is UserNotFoundAuthException) {
+                      await showErrorDialog(context,
+                          'Cannot find user with the entered credentials');
+                    } else if (state.exception is WrongPasswordAuthException) {
+                      await showErrorDialog(context, 'Wrong Credentials');
+                    } else if (state.exception is GenericAuthException) {
+                      await showErrorDialog(context, 'Authenction Error');
+                    }
+                  }
+                },
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final email = _email.text;
+                    final password = _password.text;
                     context.read<AuthBloc>().add(
                           AuthEventLogIn(
                             email,
                             password,
                           ),
                         );
-                  } on UserNotFoundAuthException {
-                    await showErrorDialog(
-                      context,
-                      'user not found',
-                    );
-                  } on WrongPasswordAuthException {
-                    await showErrorDialog(
-                      context,
-                      'wrng passwd',
-                    );
-                  } on GenericAuthException {
-                    await showErrorDialog(
-                      context,
-                      'Authentication error',
-                    );
-                  }
-                },
-                child: const Text(
-                  'Click here to login',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
+                  },
+                  child: const Text(
+                    'Click here to login',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
