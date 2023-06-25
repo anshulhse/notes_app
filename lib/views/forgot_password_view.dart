@@ -49,38 +49,88 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         appBar: AppBar(
           title: const Text('Forgot Password'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const Text(
-                  'If you have forgot your password simply enter your email and we will send you mail to reset your password.'),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                autofocus: true,
-                controller: _controller,
-                decoration: const InputDecoration(
-                    hintText: 'Enter your email address...'),
-              ),
-              TextButton(
-                onPressed: () {
-                  final email = _controller.text;
-                  context.read<AuthBloc>().add(
-                        AuthEventForgotPassword(email: email),
-                      );
-                },
-                child: const Text('Send me password reset link'),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(
-                        const AuthEventLogOut(),
-                      );
-                },
-                child: const Text('Back to login page'),
-              ),
-            ],
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 227, 10, 0),
+            child: Column(
+              children: [
+                const Text(
+                  'If you have forgot your password simply enter your email and we will send you mail to reset your password.',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      shadows: [
+                        Shadow(
+                            color: Colors.orangeAccent,
+                            offset: Offset(2, 1),
+                            blurRadius: 5)
+                      ]),
+                  textAlign: TextAlign.center,
+                ),
+                Container(
+                  height: 12,
+                ),
+                TextField(
+                  // controller: _email,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(21),
+                      // ignore: prefer_const_constructors
+                      borderSide: BorderSide(
+                        color: Colors.deepOrange,
+                        width: 2,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(21),
+                      // ignore: prefer_const_constructors
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.email,
+                      color: Colors.black,
+                    ),
+                    hintText: 'Enter your email id',
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final email = _controller.text;
+                    context.read<AuthBloc>().add(
+                          AuthEventForgotPassword(email: email),
+                        );
+                  },
+                  child: const Text(
+                    'Send me password reset link',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogOut(),
+                        );
+                  },
+                  child: const Text(
+                    'Back to login page',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

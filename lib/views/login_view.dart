@@ -52,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
         ),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 250, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 227, 10, 0),
             child: Column(
               children: [
                 TextField(
@@ -85,7 +85,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 Container(
-                  height: 11,
+                  height: 12,
                 ),
                 TextField(
                   controller: _password,
